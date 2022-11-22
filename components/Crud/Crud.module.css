@@ -1,0 +1,40 @@
+.container {
+    margin: 4rem auto;
+}
+
+.head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head h2 {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 1rem 0rem;
+}
+
+
+.actions { 
+ text-align: right;
+}
+
+.b  {
+    outline: none;
+	border: none;
+	background: transparent;
+	font-size: 20px;
+	cursor: pointer;
+	padding: 0 5px;
+    color: black;
+}
+
+.form {
+    padding: 1rem;
+}
+.form button[type="submit"]{
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
