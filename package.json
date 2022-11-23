@@ -19,6 +19,7 @@
     "@mantine/notifications": "^5.8.2",
     "@supabase/supabase-js": "^2.1.0",
     "@types/formidable": "^2.0.5",
+    "cookies-next": "^2.1.1",
     "dayjs": "^1.11.6",
     "formidable": "^2.0.1",
     "next": "12.2.4",

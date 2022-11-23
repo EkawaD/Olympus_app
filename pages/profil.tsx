@@ -61,11 +61,20 @@ export default function Profil({ data, baseURL }: { data: User, baseURL: string 
         return obj.data.publicUrl
     }
 
+    const discord = async () => {
+        const data = await fetch(`http://localhost:3000/auth/discord`, {
+            method: "GET",
+            // redirect: "follow"
+        })
+        // const data = await res.json()// your fetch function here
+        console.log(data)
+
+    }
     if (!profil) return <div>Loading ...</div>
     return (
 
         <>
-
+            <button onClick={() => discord()}> HERE </button>
             <div className="cvForm">
                 <Select ref={templateSelect} data={Object.keys(templates)} label="Template CV" />
                 <Select ref={refSelect} data={profil.lettres ? profil.lettres.map((l: Lettre) => l.title) : [""]} label="Lettre de motivation" />
@@ -116,18 +125,37 @@ export default function Profil({ data, baseURL }: { data: User, baseURL: string 
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from 'next'
 import { supabase } from '../middleware/supabase';
+import { getCookie } from 'cookies-next';
+import { Cookies } from 'next/dist/server/web/spec-extension/cookies';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    // const accessToken = ctx
+    // const jwt = getCookie("jwt", ctx)
+    // console.log(jwt);
+
+
     const baseURL = process.env.API_URL
-    const res = await fetch(`${baseURL}/users/1`)
+    const res = await fetch(`${baseURL}/users/3`)
     const data = await res.json()// your fetch function here
     console.log(data)
+
+    // const data = await fetch("http://localhost:3000/auth/test", {
+    //     method: "GET",
+    //     headers: {
+    //         Authorization: `Bearer ${jwt}`
+    //     },
+    // })
+
+
+
+    // console.log(await data.json())
+
 
 
 
     return {
         props: {
-            data: JSON.parse(JSON.stringify(data)),
+            data: JSON.parse(JSON.stringify("data")),
             baseURL: process.env.API_URL
         }
     }
