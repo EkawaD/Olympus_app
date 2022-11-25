@@ -5,7 +5,7 @@
 export default function Home() {
   return (
     <>
-      <p>Hello World !</p>
+      <a href="http://localhost:3000/auth/discord?redirect=http://localhost:3001/profil">Sign in with discord</a>
     </>
   );
 

@@ -7,25 +7,24 @@ import Form from "../Crud/Form"
 import CrudTable from "../Crud/CrudTable"
 import Input from "../Crud/Form/Input"
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { supabase } from "../../middleware/supabase";
 
 
-export default function ProfilForm({ profil, baseURL }: { profil: Profil, baseURL: string }) {
+export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: string }) {
 
-    const router = useRouter()
+
+    const profil = data
+
 
     const handleFile = async (thefile: any) => {
         const name = thefile.get("theFiles").name
         const { data, error } = await supabase.storage
             .from('olympus')
-            .upload(name, thefile, {
-                cacheControl: '3600',
-                upsert: false
-            })
+            .upload(name, thefile)
     }
 
-    const handleSubmit = async (profil: Profil) => {
+    const handleSubmit = async (p: Profil) => {
         try {
             const res = await fetch(`${baseURL}/profils/${profil.id}`, {
                 method: "PATCH",
@@ -33,7 +32,7 @@ export default function ProfilForm({ profil, baseURL }: { profil: Profil, baseUR
                     Authorization: "application/json",
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...profil, userId: profil.id })
+                body: JSON.stringify({ ...p, userId: profil.id })
             });
             showNotification({
                 title: 'Great success 😎 !',
@@ -51,21 +50,7 @@ export default function ProfilForm({ profil, baseURL }: { profil: Profil, baseUR
         }
     }
 
-    const form = useForm({
-        initialValues:
-        {
-            avatar: profil.avatar || "",
-            color: profil.color || "",
-            name: profil.name || "",
-            firstname: profil.firstname || "",
-            tel: profil.tel || "",
-            mail: profil.mail || "",
-            linkedin: profil.linkedin || "",
-            github: profil.github || "",
-            website: profil.website || "",
-            intro: profil.intro || "",
-        }
-    })
+
 
     const experienceSchema = {
         entreprise: { type: "text", label: "Entreprise" },
@@ -105,6 +90,22 @@ export default function ProfilForm({ profil, baseURL }: { profil: Profil, baseUR
         description: { type: "textarea", label: "Description" },
     }
 
+
+    const form = useForm({
+        initialValues:
+        {
+            avatar: profil?.avatar || "",
+            color: profil?.color || "",
+            name: profil?.name || "",
+            firstname: profil?.firstname || "",
+            tel: profil?.tel || "",
+            mail: profil?.mail || "",
+            linkedin: profil?.linkedin || "",
+            github: profil?.github || "",
+            website: profil?.website || "",
+            intro: profil?.intro || "",
+        }
+    })
     return (
         <>
             <div className={styles.container}>
