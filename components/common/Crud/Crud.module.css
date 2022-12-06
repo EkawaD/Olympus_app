@@ -13,6 +13,7 @@
     font-weight: bold;
     font-size: 1.5rem;
     padding: 1rem 0rem;
+    color: var(--primary)
 }
 
 
@@ -27,7 +28,7 @@
 	font-size: 20px;
 	cursor: pointer;
 	padding: 0 5px;
-    color: black;
+    color: var(--primary);
 }
 
 .form {
@@ -37,4 +38,20 @@
     position: absolute;
     bottom: 1rem;
     right: 1rem;
+    color: black;
 }
+
+.table {
+    color: white;
+}
+
+.table thead th {
+    color: var(--primary) !important;
+}
+
+.modal {
+    background-color: var(--secondary);
+    color: red !important;
+
+}
+

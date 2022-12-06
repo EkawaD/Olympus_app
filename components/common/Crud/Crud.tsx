@@ -36,10 +36,10 @@ export default function Crud<T extends object>({ children, newAction, editAction
 
                 <div className={classes.head}>
                     <h2>{title}</h2>
-                    <Button type="button" size="sm" data-attr="add" color="dark" variant="outline" onClick={() => newAction()}> + Ajouter </Button>
+                    <Button type="button" size="sm" data-attr="add" color="orange" variant="outline" onClick={() => newAction()}> + Ajouter </Button>
                 </div>
 
-                <Table striped highlightOnHover className={className + " " + classes.table} >
+                <Table className={className + " " + classes.table} >
                     <thead>
                         <tr>
                             {columns.map((column, key) => (

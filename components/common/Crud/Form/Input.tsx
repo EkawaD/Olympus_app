@@ -5,7 +5,7 @@ import { DatePicker } from '@mantine/dates';
 import createStyles from './Form.styles';
 import { FileInput } from './FileInput';
 import { UseFormReturnType } from '@mantine/form';
-import { supabase } from "../../../middleware/supabase";
+import { supabase } from "../../../../middleware/supabase";
 
 type selectDataType = { value: string, label: string }[] | string[]
 

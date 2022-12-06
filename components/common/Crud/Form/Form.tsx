@@ -22,7 +22,7 @@ export default function Form({ form, handler, children, className }: FormType) {
 
       <form onSubmit={form.onSubmit((values: any) => handler(values))} className={className + " " + classes.form} >
         {children}
-        <Button type="submit" variant="outline" color="dark">Valider</Button>
+        <Button type="submit" variant="outline" color="orange">Valider</Button>
       </form>
 
     </>

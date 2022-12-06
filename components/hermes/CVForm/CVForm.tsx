@@ -1,21 +1,19 @@
-
 import { useForm } from "@mantine/form"
 import { showNotification } from '@mantine/notifications';
 
-import styles from "./ProfilForm.module.css"
-import Form from "../Crud/Form"
-import CrudTable from "../Crud/CrudTable"
-import Input from "../Crud/Form/Input"
-import { useRouter } from "next/router";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { supabase } from "../../middleware/supabase";
+import { supabase } from "../../../middleware/supabase";
+import useSessionStorage from "../../../hooks/useSession";
+
+import Form from "../../common/Crud/Form"
+import CrudTable from "../../common/Crud/CrudTable"
+import Input from "../../common/Crud/Form/Input"
+import styles from "./CVForm.module.css"
 
 
-export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: string }) {
+export default function CVForm({ profil }: { profil: Profil }) {
 
-
-    const profil = data
-
+    const baseURL = useSessionStorage("baseURL") as string
+    const jwt = useSessionStorage("jwt") as string
 
     const handleFile = async (thefile: any) => {
         const name = thefile.get("theFiles").name
@@ -23,17 +21,19 @@ export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: s
             .from('olympus')
             .upload(name, thefile)
     }
-
     const handleSubmit = async (p: Profil) => {
         try {
-            const res = await fetch(`${baseURL}/profils/${profil.id}`, {
+
+            const res = await fetch(`${baseURL}/hermes/cv/me`, {
                 method: "PATCH",
                 headers: {
-                    Authorization: "application/json",
+                    Authorization: `Bearer ${jwt}`,
                     'Content-Type': 'application/json',
+
                 },
-                body: JSON.stringify({ ...p, userId: profil.id })
+                body: JSON.stringify(p)
             });
+
             showNotification({
                 title: 'Great success 😎 !',
                 message: "Vos informations ont bien étés mises à jour !",
@@ -49,9 +49,6 @@ export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: s
 
         }
     }
-
-
-
     const experienceSchema = {
         entreprise: { type: "text", label: "Entreprise" },
         poste: { type: "long", label: "Poste" },
@@ -89,8 +86,6 @@ export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: s
         demo: { type: "text", label: "Demo" },
         description: { type: "textarea", label: "Description" },
     }
-
-
     const form = useForm({
         initialValues:
         {
@@ -106,6 +101,8 @@ export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: s
             intro: profil?.intro || "",
         }
     })
+
+
     return (
         <>
             <div className={styles.container}>
@@ -127,50 +124,50 @@ export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: s
                         title={"Expériences"}
                         items={profil.experiences as Experience[]}
                         schema={experienceSchema}
-                        baseURL={`${baseURL}/profils/cv/experience`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/experience`}
+                        jwt={jwt}
                     />
                     <CrudTable<Diplome>
                         title={"Diplômes"}
                         items={profil.diplomes as Diplome[]}
                         schema={diplomeSchema}
-                        baseURL={`${baseURL}/profils/cv/diplome`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/diplome`}
+                        jwt={jwt}
                     />
                     <CrudTable<Skill>
                         title={"Compétences"}
                         items={profil.skills as Skill[]}
                         schema={skillSchema}
-                        baseURL={`${baseURL}/profils/cv/skill`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/skill`}
+                        jwt={jwt}
                     />
                     <CrudTable<Hobby>
                         title={"Hobby"}
                         items={profil.hobbies as Hobby[]}
                         schema={hobbySchema}
-                        baseURL={`${baseURL}/profils/cv/hobby`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/hobby`}
+                        jwt={jwt}
                     />
                     <CrudTable<Lettre>
                         title={"Lettres de motivation"}
                         items={profil.lettres as Lettre[]}
                         schema={lettreSchema}
-                        baseURL={`${baseURL}/profils/cv/lettre`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/lettre`}
+                        jwt={jwt}
                     />
                     <CrudTable<Ref>
                         title={"Références PDF"}
                         items={profil.refs as Ref[]}
                         schema={refSchema}
-                        baseURL={`${baseURL}/profils/cv/ref`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/ref`}
+                        jwt={jwt}
                     />
                     <CrudTable<Project>
                         title={"Projets"}
                         items={profil.projects as Project[]}
                         schema={projectSchema}
-                        baseURL={`${baseURL}/profils/cv/project`}
-                        addValue={{ profilId: profil.id }}
+                        baseURL={`${baseURL}/hermes/cv/project`}
+                        jwt={jwt}
                     />
                 </div>
 
@@ -180,8 +177,3 @@ export default function ProfilForm({ data, baseURL }: { data: Profil, baseURL: s
     );
 
 }
-
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-
-

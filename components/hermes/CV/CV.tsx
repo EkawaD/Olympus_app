@@ -7,7 +7,7 @@ import { GrMail } from "react-icons/gr"
 import { TbWorld } from "react-icons/tb"
 import React, { useContext, useEffect } from 'react';
 import Image from 'next/image';
-import { supabase } from '../../middleware/supabase';
+import { supabase } from '../../../middleware/supabase';
 
 
 

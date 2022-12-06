@@ -64,7 +64,7 @@ export const FileInput: React.FC<IProps> = (props) => {
 
   return (
     <div ref={formRef}>
-      <Button type="button" variant="outline" color="dark" onClick={onClickHandler} >
+      <Button type="button" variant="outline" color="orange" onClick={onClickHandler} >
         {props.label}
       </Button>
       <input

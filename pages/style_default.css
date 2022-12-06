@@ -1,7 +1,7 @@
 
 :root {
-  --primary: teal;
-  --secondary: black;
+  --primary: orange;
+  --secondary: rgb(48, 56, 66);
   --accent: #5865f2;
 
   --ff-primary: "Be Vietnam Pro", sans-serif;

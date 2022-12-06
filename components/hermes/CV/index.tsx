@@ -5,9 +5,6 @@ import { BsBookHalf, BsQuestionCircleFill } from 'react-icons/bs'
 import { VscTerminalBash } from 'react-icons/vsc'
 import { BiCameraMovie } from 'react-icons/bi'
 import { FaTheaterMasks } from 'react-icons/fa'
-import styles from './CV.module.css';
-
-
 
 export function Skill({ skill, className }: { skill: string, className?: string }) {
 

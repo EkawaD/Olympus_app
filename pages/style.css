@@ -1,91 +1,26 @@
 @import "./style_default.css";
 
+/* body {
+    background-color: var(--secondary);
+    color: white;
+} */
+
+/* input, textarea{ 
+    background-color: var(--secondary) !important;
+    color: white !important;
+} */
+
+/* label {
+    color: white !important;
+} */
+
 
 .home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    gap: 4rem;
-    height: 100vh;
-    background-color: rgb(18, 23, 27);
+    padding: 4rem;
 }
 
-.redirect {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.cvForm {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: flex-end;
-    justify-content: center;
-    border: 2px dashed var(--primary);
-    border-top: none;
-    background-color: whitesmoke;
-    padding: 2rem;
-    width: 900px;
-    margin: auto;
-}
-
-.tittle {
-    margin-top: 2rem;
-    color: var(--primary);
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: center;
-}
-
-
-.print{
-    margin-bottom: 2rem;
-}
-
-.discordButton {
-    background-color: var(--accent);
-    border-radius: 8px;
-}
-.icon {
-    position: relative;
-    top: 2px;
-    margin-right: 1rem;
-}
-
-.buttons_login {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-}
-
-.discord_avatar {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
+.home h1 {
     margin-top: 2rem;
 }
 
-.discord_avatar img {
-    border-radius: 100%;
-}
 
-.discord_avatar p {
-    font-weight: bold;
-    color: var(--primary);
-    margin: 2rem 0;
-}
-
-.signout_button {
-   display: flex;
-   justify-content: center;
-}

@@ -17,14 +17,14 @@ type CrudProps<T> = {
     items: T[],
     schema: { [key in keyof T]: any },
     baseURL: string,
+    jwt: string,
     className?: string
     title?: string,
     id?: string,
-    addValue?: {},
 }
 
 export default function CrudTable<T extends Item>({
-    items, schema, baseURL, className, title, id = "id", addValue
+    items, schema, baseURL, className, title, id = "id", jwt
 }: CrudProps<T>) {
 
     const tple = Object.keys(schema).map((value) => {
@@ -59,7 +59,10 @@ export default function CrudTable<T extends Item>({
         try {
 
             const res = await fetch(`${baseURL}/${values[id as keyof typeof values]}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
             });
 
             setData((data) => data.filter(p => p[id as keyof typeof p] !== values[id as keyof typeof values]))
@@ -74,10 +77,10 @@ export default function CrudTable<T extends Item>({
             const res = await fetch(baseURL, {
                 method: "POST",
                 headers: {
-                    Authorization: "application/json",
+                    Authorization: `Bearer ${jwt}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...values, ...addValue })
+                body: JSON.stringify(values)
             });
             const newItem = await res.json()
             setData((data) => [...data, newItem])
@@ -94,14 +97,13 @@ export default function CrudTable<T extends Item>({
             const res = await fetch(`${baseURL}/${values[id as keyof typeof values]}`, {
                 method: "PATCH",
                 headers: {
-                    Authorization: "application/json",
+                    Authorization: `Bearer ${jwt}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(values)
             });
             const updatedItem = await res.json();
             setData((data) => data.map(p => (p[id as keyof typeof p] === values[id as keyof typeof values] ? updatedItem : p)))
-
             setOpened(false)
         } catch (error) {
             console.log(error)
@@ -135,7 +137,7 @@ export default function CrudTable<T extends Item>({
                     size="70vw"
                     overlayOpacity={0.55}
                     overlayBlur={3}
-                    className={styles.modal}
+                    classNames={{ modal: styles.modal }}
                 >
                     <Form form={form} handler={handler()} className={styles.form}>
                         <>
