@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import useSessionStorage from "./useSession";
 
-const useProfil = () => {
-    const [value, setValue] = useState<Anon>()
+const useAnon = () => {
+    const [value, setValue] = useState<Anon | null>()
     const jwt = useSessionStorage('jwt')
     const baseURL = useSessionStorage('baseURL')
 
     useEffect(() => {
-        const getProfil = async () => {
+        const getAnon = async () => {
             if (baseURL) {
                 const res = await fetch(`${baseURL}/hermes/anon/me`, {
                     headers: {
@@ -15,14 +15,17 @@ const useProfil = () => {
                     }
                 });
                 const data = await res.json();
-                setValue(data);
+
+
+                if (data.statusCode) setValue(null)
+                else setValue(data);
             }
         };
 
-        getProfil();
+        getAnon();
     }, [baseURL, jwt])
 
-    return value as Anon;
+    return value;
 }
 
-export default useProfil
+export default useAnon

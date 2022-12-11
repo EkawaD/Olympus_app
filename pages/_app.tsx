@@ -5,12 +5,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import { NotificationsProvider } from "@mantine/notifications";
 import Appshell from "../components/common/Appshell";
-import './style.css'
-import { useEffect, useState } from "react";
+import '../components/common/style.css'
+import { useState } from "react";
 import { ColorScheme, ColorSchemeProvider, Loader, MantineProvider } from "@mantine/core";
-import { useRouter } from "next/router";
 import { getCookie, setCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
+import RouteGuard from "../components/common/RouteGuard";
 
 
 
@@ -55,12 +55,14 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             goldBlue: ["#a5d8ff", "#15aabf", "#0b7285"],
           },
           primaryColor: colorScheme === "dark" ? "gold" : "teal",
-          primaryShade: { white: 2, dark: 2, goldBlue: 2 }
+          primaryShade: { dark: 2 }
         }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
-            <Appshell>
-              <Component {...pageProps} />
-            </Appshell>
+            <RouteGuard>
+              <Appshell>
+                <Component {...pageProps} />
+              </Appshell>
+            </RouteGuard>
           </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

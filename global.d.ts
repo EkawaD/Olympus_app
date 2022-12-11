@@ -90,3 +90,30 @@ type Hobby = {
   userId?: number;
   name: string;
 };
+type Chart = [string, number][];
+
+type Debt = {
+  id?: number;
+  creditor: string;
+  amount: number;
+  debitor: string;
+};
+
+type Transaction = {
+  id?: number;
+  name: string;
+  payer: string;
+  payee?: string;
+  amount: number;
+  createdAt: Date;
+};
+
+type MultiTransaction = Transaction & {
+  payees: string[];
+};
+
+type User = {
+  id: number;
+  name: string;
+  pseudo?: string;
+};

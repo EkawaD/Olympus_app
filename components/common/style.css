@@ -1,0 +1,14 @@
+@import "./style_default.css";
+
+.home {
+    padding: 4rem;
+}
+
+.home h1 {
+    margin-top: 2rem;
+}
+
+
+#logout {
+    margin: 2rem 0;
+}

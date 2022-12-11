@@ -7,6 +7,7 @@ import ThemeToogle from '../ThemeToogle';
 import styles from "./Appshell.module.css"
 import Link from './Link';
 import { GiChickenOven, GiDiamondHard, GiGreekTemple, GiLibertyWing, GiPartyPopper, GiPayMoney, } from "react-icons/gi"
+import { BiLogOut } from "react-icons/bi"
 
 export default function Appshell({ children }: { children: React.ReactNode }) {
 
@@ -16,6 +17,10 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
     const color = theme.colorScheme === "dark" ? theme.colors.gold[0] : theme.colors.goldBlue[2]
     const [opened, setOpened] = useState(false);
     const anon = useAnon()
+
+    const logout = () => {
+        sessionStorage.removeItem("jwt")
+    }
 
 
     if (!anon) return <div>{children}</div>
@@ -39,30 +44,36 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
                         </Navbar.Section>
                         <Navbar.Section grow mt="md">
                             <Link title={'Hermes'}
-                                href="/hermes"
+                                href="/app/hermes"
                                 icon={<GiLibertyWing size={20} color={color} />}
                                 active={router.pathname === "/hermes"} />
                             <Link title={'Héraclès '}
-                                href="/heracles "
+                                href="/app/heracles "
                                 icon={<GiDiamondHard size={20} color={color} />}
                                 active={router.pathname === "/heracles"} />
                             <Link title={'Midas'}
-                                href="/midas"
+                                href="/app/midas"
                                 icon={<GiPayMoney size={20} color={color} />}
                                 active={router.pathname === "/midas"} />
                             <Link title={'Ceres'}
-                                href="/ceres"
+                                href="/app/ceres"
                                 icon={<GiChickenOven size={20} color={color} />}
                                 active={router.pathname === "/ceres"} />
                             <Link title={'Dyonisos'}
-                                href="/dyonisos"
+                                href="/app/dyonisos"
                                 icon={<GiPartyPopper size={20} color={color} />}
                                 active={router.pathname === "/dyonisos"} />
-
-
                         </Navbar.Section>
                         <Navbar.Section>
-                            <Text size="xs">© Copyright 2022. Made by Ederhy Bastien</Text>
+                            <div id="logout" onClick={() => logout()}>
+                                <Link title={'Déconnexion'}
+                                    href="/"
+                                    icon={<BiLogOut size={20} color="red" />}
+
+                                />
+                            </div>
+                            <Text size="xs">© Copyright 2022.</Text>
+                            <Text size="xs">Made by Ederhy Bastien</Text>
                         </Navbar.Section>
                     </Navbar>
                 }

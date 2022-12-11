@@ -7,6 +7,7 @@ const useSessionStorage = (name: string) => {
         setValue(sessionStorage.getItem(name))
     }, [name])
 
+
     return value
 }
 

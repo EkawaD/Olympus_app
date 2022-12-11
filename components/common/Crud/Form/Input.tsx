@@ -29,16 +29,20 @@ export default function Input({ type, name, form, children, selectData, property
     const [objectURL, setObjectURL] = useState("");
 
 
-    const dataToRender =
-        selectData !== undefined && typeof selectData[0] !== "string"
-            ? selectData.map((d) => d[propertyToRender as keyof typeof d])
-            : selectData as unknown as selectDataType
-    const [data, setData] = useState<selectDataType>(dataToRender)
+
+    const dataToRender = selectData !== undefined && typeof selectData[0] !== "string"
+        ? selectData.map((d) => d[propertyToRender as keyof typeof d])
+        : selectData as unknown as string[]
+    const [data, setData] = useState<string[]>(selectData as string[])
+
 
     const valueSelect = Array.isArray(form.values[name]) && form.values[name][0] !== undefined
         ? form.values[name].map((p: any) => p[propertyToRender as keyof typeof p])
         : form.values[name] === Object(form.values[name]) ? form.values[name][propertyToRender as string] : form.values[name]
+
     const [value, setValue] = useState(valueSelect)
+
+
     const [render, setRender] = useState(true)
     useEffect(() => {
         if (render) {
@@ -142,6 +146,17 @@ export default function Input({ type, name, form, children, selectData, property
 
             />
 
+        case "euros":
+            return <NumberInput
+                label={children}
+                className={classes.input}
+                parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
+                step={0.1}
+                precision={2}
+                defaultValue={1}
+                icon={"€"}
+                {...form.getInputProps(`${name}`)}
+            />
         case "select":
             return (
                 <Select

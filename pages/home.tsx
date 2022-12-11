@@ -1,5 +1,6 @@
 import { LoadingOverlay } from "@mantine/core";
 import { GetServerSideProps, } from "next";
+import { useRouter } from "next/router";
 import { createContext, ReactNode, useEffect } from "react";
 import useAnon from "../hooks/useAnon";
 
@@ -13,6 +14,7 @@ export default function Home({ baseURL, jwt }: { baseURL: string, jwt: string })
         sessionStorage.setItem("baseURL", baseURL)
     }, [baseURL, jwt])
     const anon = useAnon()
+
     if (!anon) return <LoadingOverlay visible />
 
     return (

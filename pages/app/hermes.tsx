@@ -1,13 +1,14 @@
 import React from 'react';
-import useProfil from '../hooks/useProfil';
-import CVForm from '../components/hermes/CVForm';
-import PrintCV from '../components/hermes/PrintCV';
-import { Loader, LoadingOverlay } from '@mantine/core';
+import useProfil from '../../hooks/useProfil';
+import CVForm from '../../components/hermes/CVForm';
+import PrintCV from '../../components/hermes/PrintCV';
+import { LoadingOverlay } from '@mantine/core';
 
 
 export default function Profil() {
 
     const profil = useProfil()
+
     if (!profil) return <LoadingOverlay visible />
 
     return (
