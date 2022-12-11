@@ -46,23 +46,23 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
                             <Link title={'Hermes'}
                                 href="/app/hermes"
                                 icon={<GiLibertyWing size={20} color={color} />}
-                                active={router.pathname === "/hermes"} />
+                                active={router.pathname === "/app/hermes"} />
                             <Link title={'Héraclès '}
                                 href="/app/heracles "
                                 icon={<GiDiamondHard size={20} color={color} />}
-                                active={router.pathname === "/heracles"} />
+                                active={router.pathname === "/app/heracles"} />
                             <Link title={'Midas'}
                                 href="/app/midas"
                                 icon={<GiPayMoney size={20} color={color} />}
-                                active={router.pathname === "/midas"} />
+                                active={router.pathname === "/app/midas"} />
                             <Link title={'Ceres'}
                                 href="/app/ceres"
                                 icon={<GiChickenOven size={20} color={color} />}
-                                active={router.pathname === "/ceres"} />
-                            <Link title={'Dyonisos'}
+                                active={router.pathname === "/app/ceres"} />
+                            {/* <Link title={'Dyonisos'}
                                 href="/app/dyonisos"
                                 icon={<GiPartyPopper size={20} color={color} />}
-                                active={router.pathname === "/dyonisos"} />
+                                active={router.pathname === "/app/dyonisos"} /> */}
                         </Navbar.Section>
                         <Navbar.Section>
                             <div id="logout" onClick={() => logout()}>

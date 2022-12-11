@@ -1,3 +1,14 @@
+type User = {
+  id: number;
+  name: string;
+  pseudo?: string;
+};
+type Group = {
+  id?: number;
+  name: string;
+  anons: Anon[];
+  transactions: Transaction[];
+};
 type Anon = {
   avatar: string;
   pseudo: string;
@@ -90,15 +101,8 @@ type Hobby = {
   userId?: number;
   name: string;
 };
+
 type Chart = [string, number][];
-
-type Debt = {
-  id?: number;
-  creditor: string;
-  amount: number;
-  debitor: string;
-};
-
 type Transaction = {
   id?: number;
   name: string;
@@ -107,13 +111,18 @@ type Transaction = {
   amount: number;
   createdAt: Date;
 };
-
 type MultiTransaction = Transaction & {
   payees: string[];
 };
 
-type User = {
-  id: number;
+type Todo = {
+  id?: number;
+  completed: boolean;
+  task: string;
+  category?: string;
+};
+type Category = {
+  id?: number;
   name: string;
-  pseudo?: string;
+  todos?: Todo[];
 };

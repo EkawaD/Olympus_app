@@ -45,6 +45,7 @@ export default function Input({ type, name, form, children, selectData, property
 
     const [render, setRender] = useState(true)
     useEffect(() => {
+        setData(selectData as string[])
         if (render) {
             setRender(false)
             if (Array.isArray(valueSelect) && valueSelect[0] !== undefined) {
@@ -53,7 +54,7 @@ export default function Input({ type, name, form, children, selectData, property
                 form.setFieldValue(name, value)
             }
         }
-    }, [form, render, name, valueSelect, value,])
+    }, [form, render, name, valueSelect, value, selectData])
 
     const handlerFile = (event: React.ChangeEvent<HTMLInputElement>, formData: FormData) => {
         if (event.target.files && event.target.files[0]) {

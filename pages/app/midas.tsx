@@ -7,7 +7,7 @@ import Advices from "../../components/midas/Advices"
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
 import useSession from "../../hooks/useSession";
-import { LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay, Select } from "@mantine/core";
 
 export default function Midas() {
 
@@ -18,6 +18,10 @@ export default function Midas() {
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [advices, setAdvices] = useState<string[]>([])
     const [chart, setChart] = useState<Chart>([])
+    const [groups, setGroups] = useState<string[]>([])
+    const [currentGroup, setCurrentGroup] = useState<string | null>(null)
+    const [firstRender, setFirstRender] = useState<boolean>(true)
+
 
     const transactionForm = useForm<MultiTransaction>({
         initialValues: {
@@ -38,7 +42,7 @@ export default function Midas() {
                 amount: Number((values.amount / values.payees.length).toFixed(2)),
                 payee: username
             } as Transaction
-            const res = await fetch(`${baseURL}/midas/coloc/transactions`, {
+            const res = await fetch(`${baseURL}/midas/${currentGroup}/transactions`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -52,8 +56,9 @@ export default function Midas() {
 
         await updateChartAndAdvices()
     }
+
     const rmTransaction = async (id: number) => {
-        const res = await fetch(`${baseURL}/midas/coloc/transactions/${id}`, {
+        const res = await fetch(`${baseURL}/midas/${currentGroup}/transactions/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -65,9 +70,12 @@ export default function Midas() {
     }
 
     const updateChartAndAdvices = useCallback(() => {
+        if (!currentGroup) return false
+
         setAdvices([])
+
         const getChartAndAdvice = async () => {
-            const res = await fetch(`${baseURL}/midas/coloc/chart`, {
+            const res = await fetch(`${baseURL}/midas/${currentGroup}/chart`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`
                 }
@@ -76,7 +84,7 @@ export default function Midas() {
 
             setChart(chart)
 
-            const resAdv = await fetch(`${baseURL}/midas/coloc/advices`, {
+            const resAdv = await fetch(`${baseURL}/midas/${currentGroup}/advices`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`
                 }
@@ -88,26 +96,46 @@ export default function Midas() {
             })
         }
         getChartAndAdvice()
-    }, [baseURL, jwt])
+    }, [baseURL, currentGroup, jwt])
 
     useEffect(() => {
         const getGroup = async () => {
-            const res = await fetch(`${baseURL}/midas/group/me`, {
+            const res = await fetch(`${baseURL}/users/group/me`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`
                 }
             })
 
             const data = await res.json()
-            setUsers(data.anons.map((a: Anon) => a.pseudo))
-            setTransactions(data.transactions)
+
+            setGroups(data.map((d: Group) => d.name))
+            setCurrentGroup(data[0].name)
+            setUsers(data[0].anons.map((a: Anon) => a.pseudo))
+            setTransactions(data[0].transactions)
             await updateChartAndAdvices()
         }
 
-        if (baseURL && jwt) getGroup()
-    }, [baseURL, jwt, updateChartAndAdvices])
+        if (baseURL && jwt && firstRender) {
+            getGroup()
+            setFirstRender(false)
+        }
+    }, [baseURL, firstRender, jwt, updateChartAndAdvices])
 
-
+    useEffect(() => {
+        const updateTransactions = async () => {
+            const res = await fetch(`${baseURL}/users/group/me`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            })
+            const data = await res.json()
+            const selectedGroup = data.find((g: Group) => g.name === currentGroup)
+            setUsers(selectedGroup.anons.map((a: Anon) => a.pseudo))
+            setTransactions(selectedGroup.transactions)
+            await updateChartAndAdvices()
+        }
+        if (baseURL && jwt && currentGroup) updateTransactions()
+    }, [baseURL, currentGroup, jwt, updateChartAndAdvices])
 
 
     if (users.length === 0) return <LoadingOverlay visible />
@@ -115,7 +143,11 @@ export default function Midas() {
         <>
             <div className="container">
                 <div>
+                    {users}
                     <h1>Tricount</h1>
+                    <div className="group">
+                        <Select data={groups} value={currentGroup} onChange={setCurrentGroup}></Select>
+                    </div>
                     <Form form={transactionForm} handler={addTransaction} className="form--transaction" >
                         <Input type={"text"} name={"name"} form={transactionForm}>Motif</Input>
                         <Input type={"euros"} name={"amount"} form={transactionForm}>Montant</Input>
