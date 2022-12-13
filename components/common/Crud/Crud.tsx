@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Table } from '@mantine/core';
+import { Button, Table, useMantineTheme } from '@mantine/core';
 import classes from "./Crud.module.css"
 import { AiFillDelete, AiFillEdit, AiOutlineClose } from "react-icons/ai";
 
@@ -15,6 +15,9 @@ type CrudType<T> = {
 }
 
 export default function Crud<T extends object>({ children, newAction, editAction, deleteAction, payload, className, title }: CrudType<T>) {
+
+    const theme = useMantineTheme()
+
 
     const doNotDisplay = ["id", "_id", "__v", "userId", "profilId"]
     const columns = payload !== undefined && payload[0] !== undefined ? Object.keys(payload[0]).filter((col) => !doNotDisplay.includes(col)) : []
@@ -36,7 +39,7 @@ export default function Crud<T extends object>({ children, newAction, editAction
 
                 <div className={classes.head}>
                     <h2>{title}</h2>
-                    <Button type="button" size="sm" data-attr="add" color="orange" variant="outline" onClick={() => newAction()}> + Ajouter </Button>
+                    <Button type="button" size="sm" data-attr="add" variant="outline" onClick={() => newAction()}> + Ajouter </Button>
                 </div>
 
                 <Table className={className + " " + classes.table} >

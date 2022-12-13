@@ -1,12 +1,16 @@
 import { useRef, useState } from "react";
 import { Button, Modal, MultiSelect, Select } from "@mantine/core";
 import { supabase } from "../../../middleware/supabase";
-import { Document, Page } from "react-pdf";
-import ReactToPrint from "react-to-print";
 import CV from "../CV";
 import LettreM from "../LM";
-
 import styles from "./PrintCV.module.css"
+
+import ReactToPrint from "react-to-print";
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
+
+
+
 // import ClassicCV from '../components/pages/profil/CV/ClassicCV';
 
 export default function PrintCV({ profil }: { profil: Profil }) {
@@ -41,6 +45,29 @@ export default function PrintCV({ profil }: { profil: Profil }) {
         }
     }
 
+    const getPdf = () => {
+        if (opened) {
+            return <>
+                <ReactToPrint
+                    trigger={() => <Button color="dark" className="print">Télécharger le .pdf !</Button>}
+                    content={() => componentRef.current} /><div ref={componentRef}>
+                    <>
+                        {template}
+                        {lm && <LettreM profil={profil} lm={lm} dev={true} />}
+                        {refs.map((ref, key) => ref &&
+                            <Document key={key} file={getFile(ref)}>
+                                <Page pageNumber={1} width={950} />
+                            </Document>
+                        )}
+                    </>
+
+                </div>
+            </>
+        } else {
+            return <>...</>
+        }
+    }
+
     return (
 
         <>
@@ -52,22 +79,7 @@ export default function PrintCV({ profil }: { profil: Profil }) {
             </div>
 
             <Modal opened={opened} onClose={() => setOpened(false)} size={"clamp('50vw', '90vw')"}>
-                <ReactToPrint
-                    trigger={() => <Button color="dark" className="print">Télécharger le .pdf !</Button>}
-                    content={() => componentRef.current}
-                />
-                <div ref={componentRef}>
-                    <>
-                        {template}
-                        {lm && <LettreM profil={profil} lm={lm} dev={true} />}
-                        {refs.map((ref, key) =>
-                            ref &&
-                            <Document key={key} file={getFile(ref)}>
-                                <Page pageNumber={1} width={950} />
-                            </Document>
-                        )}
-                    </>
-                </div>
+                {getPdf()}
             </Modal>
 
 

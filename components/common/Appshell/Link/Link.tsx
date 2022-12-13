@@ -7,7 +7,7 @@ import React from 'react';
 
 
 
-export default function Appshell({ title, icon, href, active = false }: { title: string, icon: React.ReactNode, href: string, active?: boolean }) {
+export default function OlympusLink({ title, icon, href, active = false }: { title: string, icon: React.ReactNode, href: string, active?: boolean }) {
 
     return (
         <>
@@ -15,7 +15,6 @@ export default function Appshell({ title, icon, href, active = false }: { title:
                 <NavLink
                     label={title}
                     icon={icon}
-                    component="a"
                     active={active}
                     color="violet"
                     variant="subtle"

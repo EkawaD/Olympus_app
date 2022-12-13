@@ -29,7 +29,7 @@ export default function RouteGuard({ children }: { children: React.ReactNode }) 
 
     function authCheck(url: string, jwt: string | null) {
         // redirect to login page if accessing a private page and not logged in 
-        const publicPaths = ['/', '/home'];
+        const publicPaths = ['/', '/app/hermes'];
         const path = url.split('?')[0];
         const isPublicURL = publicPaths.includes(path)
         if (!jwt && !isPublicURL) {

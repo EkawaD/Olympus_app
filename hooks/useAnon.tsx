@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import useSessionStorage from "./useSession";
 
@@ -6,6 +7,7 @@ const useAnon = () => {
     const jwt = useSessionStorage('jwt')
     const baseURL = useSessionStorage('baseURL')
 
+    const router = useRouter()
     useEffect(() => {
         const getAnon = async () => {
             if (baseURL) {
@@ -16,14 +18,13 @@ const useAnon = () => {
                 });
                 const data = await res.json();
 
-
                 if (data.statusCode) setValue(null)
                 else setValue(data);
             }
         };
 
         getAnon();
-    }, [baseURL, jwt])
+    }, [baseURL, jwt, router])
 
     return value;
 }

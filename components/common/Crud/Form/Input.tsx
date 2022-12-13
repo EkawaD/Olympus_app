@@ -6,6 +6,7 @@ import createStyles from './Form.styles';
 import { FileInput } from './FileInput';
 import { UseFormReturnType } from '@mantine/form';
 import { supabase } from "../../../../middleware/supabase";
+import Image from "next/image"
 
 type selectDataType = { value: string, label: string }[] | string[]
 
@@ -33,7 +34,7 @@ export default function Input({ type, name, form, children, selectData, property
     const dataToRender = selectData !== undefined && typeof selectData[0] !== "string"
         ? selectData.map((d) => d[propertyToRender as keyof typeof d])
         : selectData as unknown as string[]
-    const [data, setData] = useState<string[]>(selectData as string[])
+    const [data, setData] = useState<string[]>([""])
 
 
     const valueSelect = Array.isArray(form.values[name]) && form.values[name][0] !== undefined
@@ -45,16 +46,20 @@ export default function Input({ type, name, form, children, selectData, property
 
     const [render, setRender] = useState(true)
     useEffect(() => {
-        setData(selectData as string[])
         if (render) {
-            setRender(false)
             if (Array.isArray(valueSelect) && valueSelect[0] !== undefined) {
                 form.setFieldValue(name, valueSelect)
             } else {
                 form.setFieldValue(name, value)
             }
+            setRender(false)
         }
-    }, [form, render, name, valueSelect, value, selectData])
+    }, [form, render, name, valueSelect, value, dataToRender])
+
+    useEffect(() => {
+        setData(selectData as unknown as string[])
+    }, [selectData])
+
 
     const handlerFile = (event: React.ChangeEvent<HTMLInputElement>, formData: FormData) => {
         if (event.target.files && event.target.files[0]) {
@@ -70,6 +75,7 @@ export default function Input({ type, name, form, children, selectData, property
         const obj = objectURL ? supabase.storage.from('olympus').getPublicUrl(objectURL) : supabase.storage.from('olympus').getPublicUrl(form.values[name] as string)
         return obj.data.publicUrl
     }
+
 
     switch (type) {
         case "text":
@@ -133,15 +139,15 @@ export default function Input({ type, name, form, children, selectData, property
                 data={data}
                 className={classes.input}
                 value={value}
-                onChange={(data) => {
-                    setValue(data)
+                onChange={(d) => {
+                    setValue(d)
                     setRender(true)
                 }}
                 searchable
                 creatable
                 getCreateLabel={(query) => `+ Create ${query}`}
                 onCreate={(query) => {
-                    setData((current) => [...current as string[], query]);
+                    setData((current) => [...current || data, query]);
                     return query;
                 }}
 
@@ -152,7 +158,7 @@ export default function Input({ type, name, form, children, selectData, property
                 label={children}
                 className={classes.input}
                 parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
-                step={0.1}
+                step={10}
                 precision={2}
                 defaultValue={1}
                 icon={"€"}
@@ -172,12 +178,11 @@ export default function Input({ type, name, form, children, selectData, property
                 />
             )
         case "image":
-
             return (
                 <>
                     <Group className={classes.fileInput}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img alt="Photo de profil" src={getFile(objectURL)} />
+                        <Image width={80} height={100} alt="Photo de profil" priority src={getFile(objectURL)} />
                         <FileInput
                             label={children}
                             uploadFileName="theFiles"

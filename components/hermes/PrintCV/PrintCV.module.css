@@ -6,9 +6,7 @@
     gap: 1rem;
     align-items: flex-end;
     justify-content: center;
-    border: 2px dashed var(--primary);
     border-top: none;
-    background-color: var(--secondary);
     padding: 2rem;
     width: 900px;
     margin: auto;

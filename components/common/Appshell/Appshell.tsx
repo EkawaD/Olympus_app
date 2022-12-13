@@ -1,15 +1,17 @@
-import { AppShell, Burger, Header, MediaQuery, Navbar, Text, useMantineTheme } from '@mantine/core';
+import { ReactNode, useState } from 'react';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
 import Image from 'next/image';
-import useAnon from '../../../hooks/useAnon';
-import ThemeToogle from '../ThemeToogle';
-import styles from "./Appshell.module.css"
-import Link from './Link';
-import { GiChickenOven, GiDiamondHard, GiGreekTemple, GiLibertyWing, GiPartyPopper, GiPayMoney, } from "react-icons/gi"
+import { AppShell, Burger, Header, MediaQuery, Navbar, Text, useMantineTheme } from '@mantine/core';
+import { GiDiamondHard, GiGreekTemple, GiLibertyWing, GiPayMoney, GiShinyApple } from "react-icons/gi"
 import { BiLogOut } from "react-icons/bi"
 
-export default function Appshell({ children }: { children: React.ReactNode }) {
+import styles from "./Appshell.module.css"
+import ThemeToogle from '../ThemeToogle';
+import Link from './Link';
+import Contacts from '../Contacts';
+import useAnon from '../../../hooks/useAnon';
+
+export default function Appshell({ children }: { children: ReactNode }) {
 
 
     const router = useRouter()
@@ -21,8 +23,6 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
     const logout = () => {
         sessionStorage.removeItem("jwt")
     }
-
-
     if (!anon) return <div>{children}</div>
     return (
         <>
@@ -32,15 +32,22 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
                 navbarOffsetBreakpoint="sm"
                 navbar={
                     <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 250, lg: 250 }}>
-                        <Navbar.Section className={styles.anon} component="a" href="/home" style={{ color: theme.primaryColor }}>
+                        <Navbar.Section className={styles.anon} component="a" href="/home" style={{ color: color }}>
                             <Image
+                                priority
                                 className={styles.avatar}
                                 src={anon.avatar}
-                                width={40}
-                                height={40}
                                 alt="avatar"
+                                width={50} height={50}
                             />
                             <p>{anon.pseudo}</p>
+                            <div id="logout" onClick={() => logout()}>
+                                <Link title={'Déconnexion'}
+                                    href="/"
+                                    icon={<BiLogOut size={20} color="red" />}
+
+                                />
+                            </div>
                         </Navbar.Section>
                         <Navbar.Section grow mt="md">
                             <Link title={'Hermes'}
@@ -57,7 +64,7 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
                                 active={router.pathname === "/app/midas"} />
                             <Link title={'Ceres'}
                                 href="/app/ceres"
-                                icon={<GiChickenOven size={20} color={color} />}
+                                icon={<GiShinyApple size={20} color={color} />}
                                 active={router.pathname === "/app/ceres"} />
                             {/* <Link title={'Dyonisos'}
                                 href="/app/dyonisos"
@@ -65,14 +72,8 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
                                 active={router.pathname === "/app/dyonisos"} /> */}
                         </Navbar.Section>
                         <Navbar.Section>
-                            <div id="logout" onClick={() => logout()}>
-                                <Link title={'Déconnexion'}
-                                    href="/"
-                                    icon={<BiLogOut size={20} color="red" />}
-
-                                />
-                            </div>
-                            <Text size="xs">© Copyright 2022.</Text>
+                            <Contacts className='contacts' />
+                            <Text mt={20} size="xs">© Copyright 2022.</Text>
                             <Text size="xs">Made by Ederhy Bastien</Text>
                         </Navbar.Section>
                     </Navbar>
@@ -88,13 +89,9 @@ export default function Appshell({ children }: { children: React.ReactNode }) {
                                     mr="xl"
                                 />
                             </MediaQuery>
-
                             <GiGreekTemple size={30} color={color} className={styles.logo} />
                             <h1>OLYMPUS</h1>
-
-
                             <ThemeToogle className={styles.themeToogle} />
-
                         </div>
                     </Header>
                 }

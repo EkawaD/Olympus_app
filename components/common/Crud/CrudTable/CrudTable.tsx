@@ -137,7 +137,6 @@ export default function CrudTable<T extends Item>({
                     size="70vw"
                     overlayOpacity={0.55}
                     overlayBlur={3}
-                    classNames={{ modal: styles.modal }}
                 >
                     <Form form={form} handler={handler()} className={styles.form}>
                         <>

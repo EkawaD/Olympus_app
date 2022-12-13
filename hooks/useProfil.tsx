@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import useSessionStorage from "./useSession";
 
@@ -6,6 +7,7 @@ const useProfil = () => {
     const jwt = useSessionStorage('jwt')
     const baseURL = useSessionStorage('baseURL')
 
+    const router = useRouter()
     useEffect(() => {
         const getProfil = async () => {
             if (baseURL) {
@@ -15,13 +17,16 @@ const useProfil = () => {
                     }
                 });
                 const data = await res.json();
-                if (data.statusCode) setValue(null)
+                if (data.statusCode) {
+                    setValue(null)
+                    router.push("/")
+                }
                 else setValue(data);
             }
         };
 
         getProfil();
-    }, [baseURL, jwt])
+    }, [baseURL, jwt, router])
 
 
     return value;

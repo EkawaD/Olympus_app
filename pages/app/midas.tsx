@@ -8,20 +8,18 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
 import useSession from "../../hooks/useSession";
 import { LoadingOverlay, Select } from "@mantine/core";
+import useGroup from "../../hooks/useGroup";
 
 export default function Midas() {
 
     const baseURL = useSession("baseURL")
     const jwt = useSession("jwt")
+    const { groups, currentGroup, setCurrentGroup, setGroupName } = useGroup()
 
     const [users, setUsers] = useState<string[]>([])
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [advices, setAdvices] = useState<string[]>([])
     const [chart, setChart] = useState<Chart>([])
-    const [groups, setGroups] = useState<string[]>([])
-    const [currentGroup, setCurrentGroup] = useState<string | null>(null)
-    const [firstRender, setFirstRender] = useState<boolean>(true)
-
 
     const transactionForm = useForm<MultiTransaction>({
         initialValues: {
@@ -32,7 +30,6 @@ export default function Midas() {
             createdAt: new Date()
         }
     })
-
     const addTransaction = async (values: MultiTransaction) => {
         values.payees.filter((p: any) => p !== values.payer).map(async (username: string) => {
             const transaction = {
@@ -42,7 +39,7 @@ export default function Midas() {
                 amount: Number((values.amount / values.payees.length).toFixed(2)),
                 payee: username
             } as Transaction
-            const res = await fetch(`${baseURL}/midas/${currentGroup}/transactions`, {
+            const res = await fetch(`${baseURL}/midas/${currentGroup.name}/transactions`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -56,9 +53,8 @@ export default function Midas() {
 
         await updateChartAndAdvices()
     }
-
     const rmTransaction = async (id: number) => {
-        const res = await fetch(`${baseURL}/midas/${currentGroup}/transactions/${id}`, {
+        const res = await fetch(`${baseURL}/midas/${currentGroup.name}/transactions/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -71,11 +67,10 @@ export default function Midas() {
 
     const updateChartAndAdvices = useCallback(() => {
         if (!currentGroup) return false
-
         setAdvices([])
 
         const getChartAndAdvice = async () => {
-            const res = await fetch(`${baseURL}/midas/${currentGroup}/chart`, {
+            const res = await fetch(`${baseURL}/midas/${currentGroup.name}/chart`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`
                 }
@@ -84,7 +79,7 @@ export default function Midas() {
 
             setChart(chart)
 
-            const resAdv = await fetch(`${baseURL}/midas/${currentGroup}/advices`, {
+            const resAdv = await fetch(`${baseURL}/midas/${currentGroup.name}/advices`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`
                 }
@@ -99,54 +94,27 @@ export default function Midas() {
     }, [baseURL, currentGroup, jwt])
 
     useEffect(() => {
-        const getGroup = async () => {
-            const res = await fetch(`${baseURL}/users/group/me`, {
-                headers: {
-                    Authorization: `Bearer ${jwt}`
-                }
-            })
+        const getData = async () => {
+            // console.log(currentGroup.transactions);
 
-            const data = await res.json()
-
-            setGroups(data.map((d: Group) => d.name))
-            setCurrentGroup(data[0].name)
-            setUsers(data[0].anons.map((a: Anon) => a.pseudo))
-            setTransactions(data[0].transactions)
+            setUsers(currentGroup.anons.map((a: Anon) => a.pseudo))
+            setTransactions(currentGroup.transactions)
             await updateChartAndAdvices()
         }
+        if (currentGroup) getData()
 
-        if (baseURL && jwt && firstRender) {
-            getGroup()
-            setFirstRender(false)
-        }
-    }, [baseURL, firstRender, jwt, updateChartAndAdvices])
-
-    useEffect(() => {
-        const updateTransactions = async () => {
-            const res = await fetch(`${baseURL}/users/group/me`, {
-                headers: {
-                    Authorization: `Bearer ${jwt}`
-                }
-            })
-            const data = await res.json()
-            const selectedGroup = data.find((g: Group) => g.name === currentGroup)
-            setUsers(selectedGroup.anons.map((a: Anon) => a.pseudo))
-            setTransactions(selectedGroup.transactions)
-            await updateChartAndAdvices()
-        }
-        if (baseURL && jwt && currentGroup) updateTransactions()
-    }, [baseURL, currentGroup, jwt, updateChartAndAdvices])
+    }, [currentGroup, updateChartAndAdvices])
 
 
-    if (users.length === 0) return <LoadingOverlay visible />
+
+    if (!currentGroup || !users) return <LoadingOverlay visible />
     return (
         <>
             <div className="container">
                 <div>
-                    {users}
                     <h1>Tricount</h1>
                     <div className="group">
-                        <Select data={groups} value={currentGroup} onChange={setCurrentGroup}></Select>
+                        <Select data={groups.map(g => g.name)} value={currentGroup.name} onChange={setGroupName}></Select>
                     </div>
                     <Form form={transactionForm} handler={addTransaction} className="form--transaction" >
                         <Input type={"text"} name={"name"} form={transactionForm}>Motif</Input>

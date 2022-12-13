@@ -8,6 +8,7 @@ type Group = {
   name: string;
   anons: Anon[];
   transactions: Transaction[];
+  todos: Todos[];
 };
 type Anon = {
   avatar: string;

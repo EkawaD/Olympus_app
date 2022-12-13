@@ -1,13 +1,11 @@
 .forms > div {
     padding-bottom: 4rem;
-    border-bottom: 5px dashed var(--primary);
     width: 80%
 }
 
 .profil {
     margin: auto;
     padding-bottom: 4rem;
-    border-bottom: 5px dashed var(--primary);
     width: 80%
 }
 

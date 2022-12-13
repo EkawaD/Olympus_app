@@ -1,51 +1,28 @@
 import { LoadingOverlay } from "@mantine/core";
-import { GetServerSideProps, } from "next";
-import { useEffect } from "react";
+import CVForm from "../components/hermes/CVForm";
 import useAnon from "../hooks/useAnon";
+import useProfil from "../hooks/useProfil";
 
 
 
 
-export default function Home({ baseURL, jwt }: { baseURL: string, jwt: string }) {
+export default function Home() {
 
-    useEffect(() => {
-        if (jwt) sessionStorage.setItem("jwt", jwt)
-        sessionStorage.setItem("baseURL", baseURL)
-    }, [baseURL, jwt])
     const anon = useAnon()
+    const profil = useProfil()
 
-    if (!anon) return <LoadingOverlay visible />
+    if (!anon || !profil) return <LoadingOverlay visible />
 
     return (
         <>
             <div className="home">
-
-                <h1>General</h1>
-                <ul>
-                    <li>CSS Login</li>
-                    <li>RefreshToken</li>
-                    <li>Optimisation Hermes</li>
-                    <li>Ceres Back + Front</li>
-                    <li>CSS GLOBAL</li>
-                </ul>
-
-
+                <CVForm profil={profil} />
             </div>
         </>
     );
 
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-    return {
-        props: {
-            baseURL: process.env.API_URL,
-            jwt: ctx.query.accessToken || null,
-        }
-    }
-
-}
 
 
 

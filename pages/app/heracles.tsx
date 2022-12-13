@@ -1,18 +1,19 @@
-import { Select } from "@mantine/core";
+import { LoadingOverlay, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import Form from "../../components/common/Crud/Form";
 import Input from "../../components/common/Crud/Form/Input";
-import useSessionStorage from "../../hooks/useSession";
+import useGroup from "../../hooks/useGroup";
+import useSession from "../../hooks/useSession";
 
 
 export default function Heracles() {
 
-    const jwt = useSessionStorage("jwt")
-    const baseURL = useSessionStorage("baseURL")
-    const [groups, setGroups] = useState<string[]>([])
-    const [currentGroup, setCurrentGroup] = useState<string | null>(null)
-    const [firstRender, setFirstRender] = useState<boolean>(true)
+    const jwt = useSession("jwt")
+    const baseURL = useSession("baseURL")
+    const { groups, currentGroup, setCurrentGroup, setGroupName } = useGroup()
+    const [render, setRender] = useState(true)
+
 
     const [categories, setCategories] = useState<Category[]>([])
     const categoryForm = useForm<Category>({
@@ -21,7 +22,7 @@ export default function Heracles() {
         }
     })
     const addCategory = async (value: { name: string }) => {
-        const res = await fetch(`${baseURL}/heracles/${currentGroup}/category`, {
+        const res = await fetch(`${baseURL}/heracles/${currentGroup.name}/category`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -31,9 +32,10 @@ export default function Heracles() {
         })
         const data = await res.json()
         setCategories((c) => [...c, data])
+        categoryForm.reset()
     }
     const deleteCategory = async (id: number) => {
-        const res = await fetch(`${baseURL}/heracles/${currentGroup}/category/${id}`, {
+        const res = await fetch(`${baseURL}/heracles/${currentGroup.name}/category/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -57,7 +59,7 @@ export default function Heracles() {
             categoryId: category.id
         }
 
-        const res = await fetch(`${baseURL}/heracles/${currentGroup}/todo`, {
+        const res = await fetch(`${baseURL}/heracles/${currentGroup.name}/todo`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -68,41 +70,42 @@ export default function Heracles() {
         const data = await res.json()
         setCategories((d) => d.map((c) => c.name === value.category ?
             { ...c, todos: [...c.todos || [], data as Todo] } : c))
+        todoForm.reset()
     }
-    const updateTodo = async (categoryName: string, id: number) => {
-        // TODO update Category
-        console.log('update');
+    const updateTodo = async (todo: Todo) => {
+        const res = await fetch(`${baseURL}/heracles/${currentGroup.name}/todo/${todo.id}`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ completed: !todo.completed })
+        })
+        const data = await res.json()
+        setCategories((categories) => categories.map((c) => c.id === data.categoryTodoId
+            ? {
+                ...c, todos: c.todos?.map((t) =>
+                    t.id === data.id
+                        ? { ...t, completed: !t.completed }
+                        : t
+                )
+            }
+            : c))
     }
 
     useEffect(() => {
-        const getGroup = async () => {
-            const res = await fetch(`${baseURL}/users/group/me`, {
-                headers: {
-                    Authorization: `Bearer ${jwt}`
-                }
-            })
-            const groups = await res.json()
-
-            setGroups(groups.map((g: Group) => g.name))
-            if (firstRender) {
-                setCurrentGroup(groups[0].name)
-                setCategories(groups[0].todos)
-                setFirstRender(false)
-            } else {
-                const group = groups.find((g: Group) => g.name === currentGroup)
-                setCategories(group.todos)
-            }
+        if (currentGroup) {
+            setCategories(currentGroup.todos)
         }
-        if (baseURL && jwt) getGroup()
+    }, [currentGroup])
 
-    }, [baseURL, jwt, firstRender, currentGroup])
-
+    if (!currentGroup || !groups) return <LoadingOverlay visible />
     return (
         <>
             <h1>TODO</h1>
 
             <div className="group">
-                <Select data={groups} value={currentGroup} onChange={setCurrentGroup}></Select>
+                <Select data={groups.map((g) => g.name)} value={currentGroup.name} onChange={setGroupName}></Select>
             </div>
             <h2>Catégories</h2>
             <Form form={categoryForm} handler={addCategory}>
@@ -112,7 +115,7 @@ export default function Heracles() {
                 <div className="categoryTodo" key={k}>
                     <h1>{c.name} <button onClick={() => deleteCategory(c.id as number)}>X</button></h1>
                     {c.todos?.map((t, kk) =>
-                        <div key={kk} onClick={() => updateTodo(c.name, t.id as number)} >
+                        <div key={kk} onClick={() => updateTodo(t)} >
                             {t.task}
                             {t.completed.toString()}
                         </div>

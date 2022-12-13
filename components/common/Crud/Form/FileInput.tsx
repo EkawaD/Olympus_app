@@ -40,8 +40,6 @@ export const FileInput: React.FC<IProps> = (props) => {
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const formRef = React.useRef<HTMLDivElement | null>(null);
 
-  const { classes } = createStyles()
-
   const onClickHandler = () => {
     fileInputRef.current?.click();
   };
