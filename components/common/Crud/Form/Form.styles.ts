@@ -7,7 +7,9 @@ export default createStyles((theme) => ({
     gridTemplateColumns: "1fr 1fr 1fr 1fr",
     alignItems: "center",
     [" > button"]: {
-      width: "200px",
+      width: "100px",
+      color: "var(--primary)",
+      borderColor: "var(--primary)",
     },
   },
   input: {

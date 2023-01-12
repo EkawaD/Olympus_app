@@ -55,6 +55,7 @@ export default function Home({ demoJWT }: { demoJWT: string }) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const baseURL = process.env.API_URL
+  console.log(baseURL)
   const res = await fetch(`${baseURL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

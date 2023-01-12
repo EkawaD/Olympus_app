@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -20,11 +20,28 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
 
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
+
+  const setCSS = (colorScheme: string) => {
+    const primaryColor = colorScheme === 'dark' ? 'gold' : 'teal';
+    const themeColor = colorScheme === 'dark' ? 'gray' : 'black';
+    const invTheme = colorScheme === 'dark' ? 'black' : 'white';
+    const root = document.documentElement;
+    root.style.setProperty('--primary', primaryColor)
+    root.style.setProperty('--theme', themeColor)
+    root.style.setProperty('--invTheme', invTheme)
+  }
+
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
+    setCSS(nextColorScheme)
     setColorScheme(nextColorScheme);
     setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
+
   }
+
+  useEffect(() => {
+    setCSS(colorScheme)
+  }, [colorScheme])
 
 
   return (

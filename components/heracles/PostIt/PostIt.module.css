@@ -1,0 +1,44 @@
+
+.categoryTodo {
+    padding: 1rem;
+    min-height: 20vh;
+    max-width: 20vw;
+    border-radius: 20px;
+    background-color: var(--primary);
+    color: var(--invTheme);
+}
+.categoryTodo h2 {
+    width: 100%;
+    border-bottom: 1px solid var(--invTheme);
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    margin-bottom: 1rem;
+
+}
+.categoryTodo h2 span {
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.task {
+    margin: 0.5rem;
+}
+.task label {
+    color: var(--invTheme);
+}
+.checked label {
+    color: var(--invTheme);
+    text-decoration: line-through;
+}
+
+.task_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.task_container span {
+    cursor: pointer;
+    margin-left: auto;
+}

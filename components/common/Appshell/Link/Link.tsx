@@ -2,11 +2,6 @@ import { NavLink } from '@mantine/core';
 import Link from 'next/link';
 import React from 'react';
 
-
-
-
-
-
 export default function OlympusLink({ title, icon, href, active = false }: { title: string, icon: React.ReactNode, href: string, active?: boolean }) {
 
     return (
