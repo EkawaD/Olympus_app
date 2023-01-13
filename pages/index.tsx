@@ -8,7 +8,7 @@ import { FaDiscord } from "react-icons/fa"
 import ThemeToogle from '../components/common/ThemeToogle';
 import Contacts from '../components/common/Contacts';
 
-export default function Home({ demoJWT }: { demoJWT: string }) {
+export default function Home({ demoJWT, currentDomain, baseURL }: { demoJWT: string, currentDomain: string, baseURL: string }) {
 
   return (
     <>
@@ -29,7 +29,7 @@ export default function Home({ demoJWT }: { demoJWT: string }) {
             component='a'
             color="dark"
             className="discord_signin"
-            href="http://localhost:3000/auth/discord?redirect=http://localhost:3001/app/hermes">
+            href={`${baseURL}/auth/discord?redirect=${currentDomain}/app/hermes`}>
             <FaDiscord size={20} className="icon" />
             Me connecter avec Discord
           </Button>
@@ -55,7 +55,7 @@ export default function Home({ demoJWT }: { demoJWT: string }) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const baseURL = process.env.API_URL
-  console.log(baseURL)
+  const currentDomain = process.env.DOMAIN
   const res = await fetch(`${baseURL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -68,7 +68,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      demoJWT: JSON.parse(JSON.stringify(data.accessToken))
+      demoJWT: JSON.parse(JSON.stringify(data.accessToken)),
+      currentDomain: currentDomain
     }
   }
 }
