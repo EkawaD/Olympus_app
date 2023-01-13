@@ -127,6 +127,15 @@ export default function Heracles() {
                 <GroupSelect data={groups.map(g => g.name)} value={currentGroup.name} onChange={setGroupName} />
             </div>
 
+            <div className={styles.addTodo}>
+                <Form form={categoryForm} handler={addCategory}>
+                    <Input type="text" name="name" form={categoryForm}>Nouvelle Catégorie</Input>
+                </Form>
+                <Form form={todoForm} handler={addTodo} className={styles.todoForm}>
+                    <Input type="text" name="task" form={todoForm}>Nouvelle tâche</Input>
+                    <Input type="select" name="category" form={todoForm} selectData={categories.map((c) => c.name)}>Catégorie</Input>
+                </Form>
+            </div>
 
             <div className={styles.postIts}>
                 {categories.map((category, k) =>
@@ -137,15 +146,6 @@ export default function Heracles() {
                         key={k}
                     />
                 )}
-            </div>
-            <div className={styles.addTodo}>
-                <Form form={categoryForm} handler={addCategory}>
-                    <Input type="text" name="name" form={categoryForm}>Nouvelle Catégorie</Input>
-                </Form>
-                <Form form={todoForm} handler={addTodo} className={styles.todoForm}>
-                    <Input type="text" name="task" form={todoForm}>Nouvelle tâche</Input>
-                    <Input type="select" name="category" form={todoForm} selectData={categories.map((c) => c.name)}>Catégorie</Input>
-                </Form>
             </div>
 
         </>

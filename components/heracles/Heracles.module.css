@@ -11,8 +11,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    border-bottom: 5px dotted var(--primary);
-    padding-bottom: 3rem;
+    margin-bottom: 5rem;
 }
 
 .addTodo {
