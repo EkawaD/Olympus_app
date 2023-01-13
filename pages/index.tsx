@@ -24,7 +24,6 @@ export default function Home({ demoJWT, currentDomain, baseURL }: { demoJWT: str
         </div>
 
         <div className="signin">
-          {/* <p>Form</p> */}
           <Button
             component='a'
             color="dark"
