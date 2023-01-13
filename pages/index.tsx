@@ -68,7 +68,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       demoJWT: JSON.parse(JSON.stringify(data.accessToken)),
-      currentDomain: currentDomain
+      currentDomain: currentDomain,
+      baseURL: baseURL
     }
   }
 }
