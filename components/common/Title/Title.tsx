@@ -11,7 +11,8 @@ export default function Title({ icon, children, description }: TitleProps) {
 
     return (
         <>
-            <h1 className={styles.main}> {icon} {children} <span>{description} </span></h1>
+
+            <h1 className={styles.main}> {icon} {children} <span>{description}</span></h1>
         </>
     )
 }

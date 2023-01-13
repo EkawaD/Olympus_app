@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: fit-content;
+    margin: 2rem auto;
+}
+
+
+.user p {
+    font-size: 1.2rem;
+}
+
+.user span {
+    color: var(--theme);
+    font-weight: bold;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}

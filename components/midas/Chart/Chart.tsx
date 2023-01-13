@@ -10,9 +10,8 @@ export default function ChartItem({ data }: { data: Chart }) {
             <div className={styles.container}>
 
                 {data.map((t, k) =>
-                    <div key={k}>
-                        <p>{t[0]}</p>
-                        <p>{t[1]}</p>
+                    <div className={styles.user} key={k}>
+                        <p className={t[1] >= 0 ? styles.positive : styles.negative}><span>{t[0]}</span> {t[1].toFixed(2)}</p>
                     </div>
                 )}
             </div>

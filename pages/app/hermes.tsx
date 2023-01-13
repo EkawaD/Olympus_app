@@ -1,9 +1,9 @@
 import { LoadingOverlay } from '@mantine/core';
 import useProfil from '../../hooks/useProfil';
-import CVForm from '../../components/hermes/CVForm';
-import PrintCV from '../../components/hermes/PrintCV';
 import { GetServerSideProps } from 'next';
 import { useEffect } from 'react';
+import Title from '../../components/common/Title';
+import { GiLibertyWing } from 'react-icons/gi';
 
 
 export default function Profil({ baseURL, jwt }: { baseURL: string, jwt: string }) {
@@ -20,7 +20,9 @@ export default function Profil({ baseURL, jwt }: { baseURL: string, jwt: string 
 
         <>
 
-            <PrintCV profil={profil} />
+            <Title icon={<GiLibertyWing size={25} />} description={"Home"}>Hermes</Title>
+
+            {/* <PrintCV profil={profil} /> */}
 
             {/* <div className="discord_avatar">
                 <Image alt="avatar" width={50} height={50} src={"/" + profil.avatar}></Image>

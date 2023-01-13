@@ -1,3 +1,19 @@
-.main * {
+.main {
     color: var(--primary);
+    font-size: 1.8rem;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: fit-content ;
+    margin: auto;
+}
+
+.main * {
+    margin: 0em 1rem ;
+}
+
+.main span {
+    font-size: 1rem;
+    color: var(--theme);
+    font-style: italic;
 }

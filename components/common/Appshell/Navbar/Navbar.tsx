@@ -54,10 +54,10 @@ export default function OlympusNavbar({ anon, opened, setOpened }: HeaderProps) 
                         href="/app/midas"
                         icon={<GiPayMoney size={20} className={styles.icon} />}
                         active={router.pathname === "/app/midas"} />
-                    <Link title={'Ceres'}
+                    {/* <Link title={'Ceres'}
                         href="/app/ceres"
                         icon={<GiShinyApple size={20} className={styles.icon} />}
-                        active={router.pathname === "/app/ceres"} />
+                        active={router.pathname === "/app/ceres"} /> */}
                     {/* <Link title={'Dyonisos'}
                                 href="/app/dyonisos"
                                 icon={<GiPartyPopper size={20} className={styles.icon} />}

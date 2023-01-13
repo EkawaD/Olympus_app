@@ -1,10 +1,31 @@
 .postIts {
-    margin: 2rem 0;
+    width: fit-content;
+    margin: 2rem auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;  
 }
 
-.selects {
+.main {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    border-bottom: 5px dotted var(--primary);
+    padding-bottom: 3rem;
+}
+
+.addTodo {
+    width: fit-content;
+    margin: auto;
+}
+
+.todoForm {
+    width: 50vw;
+}
+.todoForm input:nth-child(1){
+   width: 10vw;
+}
+.todoForm input:only-child {
+    width: 30vw;
 }

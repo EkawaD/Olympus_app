@@ -11,7 +11,7 @@ const useAnon = () => {
     useEffect(() => {
         const getAnon = async () => {
             if (baseURL) {
-                const res = await fetch(`${baseURL}/hermes/anon/me`, {
+                const res = await fetch(`${baseURL}/users/anon/me`, {
                     headers: {
                         Authorization: `Bearer ${jwt}`
                     }

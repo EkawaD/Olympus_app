@@ -1,11 +1,11 @@
 
 .categoryTodo {
     padding: 1rem;
-    min-height: 20vh;
-    max-width: 20vw;
+    min-height: 30vh;
+    min-width: 17vw;
     border-radius: 20px;
-    background-color: var(--primary);
-    color: var(--invTheme);
+    border: 1px solid var(--primary);
+    font-size: 1.2rem;
 }
 .categoryTodo h2 {
     width: 100%;
@@ -19,16 +19,20 @@
 .categoryTodo h2 span {
     cursor: pointer;
     margin-left: auto;
+    color: var(--primary);
+    font-size: 1rem;
 }
 
 .task {
     margin: 0.5rem;
+    font-size: 1rem;
 }
+
 .task label {
-    color: var(--invTheme);
+    font-size: 1rem;
 }
+
 .checked label {
-    color: var(--invTheme);
     text-decoration: line-through;
 }
 
@@ -41,4 +45,6 @@
 .task_container span {
     cursor: pointer;
     margin-left: auto;
+    font-size: 1rem;
 }
+

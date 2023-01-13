@@ -1,4 +1,4 @@
-import { Checkbox, LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { GiDiamondHard } from "react-icons/gi";
@@ -122,15 +122,12 @@ export default function Heracles() {
     if (!currentGroup || !groups) return <LoadingOverlay visible />
     return (
         <>
-            <Title icon={<GiDiamondHard size={25} />} description={"Gestionnaire Todos"}>Héraclès</Title>
-
-
-            <div className={styles.selects}>
-                <Form form={categoryForm} handler={addCategory}>
-                    <Input type="text" name="name" form={categoryForm}>Nouvelle Catégorie</Input>
-                </Form>
+            <div className={styles.main}>
+                <Title icon={<GiDiamondHard size={25} />} description={"Gestionnaire Todos"}>Héraclès</Title>
                 <GroupSelect data={groups.map(g => g.name)} value={currentGroup.name} onChange={setGroupName} />
             </div>
+
+
             <div className={styles.postIts}>
                 {categories.map((category, k) =>
                     <PostIt category={category}
@@ -142,7 +139,10 @@ export default function Heracles() {
                 )}
             </div>
             <div className={styles.addTodo}>
-                <Form form={todoForm} handler={addTodo}>
+                <Form form={categoryForm} handler={addCategory}>
+                    <Input type="text" name="name" form={categoryForm}>Nouvelle Catégorie</Input>
+                </Form>
+                <Form form={todoForm} handler={addTodo} className={styles.todoForm}>
                     <Input type="text" name="task" form={todoForm}>Nouvelle tâche</Input>
                     <Input type="select" name="category" form={todoForm} selectData={categories.map((c) => c.name)}>Catégorie</Input>
                 </Form>

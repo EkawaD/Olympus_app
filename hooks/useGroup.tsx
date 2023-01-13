@@ -12,7 +12,7 @@ const useGroup = () => {
 
 
     const setGroupName = async (value: string | null) => {
-        const res = await fetch(`${baseURL}/users/group/me`, {
+        const res = await fetch(`${baseURL}/group/me`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
@@ -25,7 +25,7 @@ const useGroup = () => {
     useEffect(() => {
 
         const getGroup = async () => {
-            const res = await fetch(`${baseURL}/users/group/me`, {
+            const res = await fetch(`${baseURL}/group/me`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`
                 }

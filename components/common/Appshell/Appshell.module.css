@@ -23,18 +23,5 @@
 .main {
     padding: 2rem;
 }
-.main h1 {
-    border-bottom: 1px solid var(--theme);
-    font-size: 1.8rem;
-    color: var(--primary);
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-}
 
-.main h1 span {
-    font-size: 1rem;
-    color: var(--theme);
-    font-style: italic;
-    margin-left: auto;
-}
+
