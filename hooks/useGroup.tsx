@@ -10,7 +10,6 @@ const useGroup = () => {
     const [currentGroup, setCurrentGroup] = useState<Group>(groups[0])
     const [firstRender, setFirstRender] = useState<boolean>(true)
 
-
     const setGroupName = async (value: string | null) => {
         const res = await fetch(`${baseURL}/group/me`, {
             headers: {
@@ -25,6 +24,7 @@ const useGroup = () => {
     useEffect(() => {
 
         const getGroup = async () => {
+
             const res = await fetch(`${baseURL}/group/me`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`

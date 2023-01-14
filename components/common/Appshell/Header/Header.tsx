@@ -2,6 +2,8 @@ import { Burger, Header, MediaQuery } from "@mantine/core";
 import { Dispatch, SetStateAction } from "react";
 
 import { GiGreekTemple } from "react-icons/gi";
+import useGroup from "../../../../hooks/useGroup";
+import GroupSelect from "../../GroupSelect";
 import ThemeToogle from "../../ThemeToogle";
 
 import styles from "../Appshell.module.css"

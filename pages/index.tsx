@@ -1,8 +1,5 @@
-
-
 import { Button } from '@mantine/core';
 import { GetServerSideProps } from 'next'
-import Link from 'next/link';
 import { MdKeyboardArrowRight } from "react-icons/md"
 import { FaDiscord } from "react-icons/fa"
 import ThemeToogle from '../components/common/ThemeToogle';
@@ -12,7 +9,6 @@ export default function Home({ demoJWT, currentDomain, baseURL }: { demoJWT: str
 
   return (
     <>
-
       <div className="login">
         <ThemeToogle className="theme_toogle" />
 
@@ -48,8 +44,6 @@ export default function Home({ demoJWT, currentDomain, baseURL }: { demoJWT: str
   );
 
 }
-
-
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 

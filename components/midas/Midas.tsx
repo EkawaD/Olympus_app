@@ -57,6 +57,7 @@ export default function Midas() {
         })
 
         await updateChartAndAdvices()
+        transactionForm.reset()
     }
     const rmTransaction = async (id: number) => {
         const res = await fetch(`${baseURL}/midas/${currentGroup.name}/transactions/${id}`, {

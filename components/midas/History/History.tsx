@@ -11,8 +11,8 @@ export default function History({ data, cta }: { data: Transaction[], cta: (id: 
             {data.map((t, k) =>
                 <div className={styles.container} key={k}>
                     <p>{new Date(t.createdAt).toLocaleDateString()}</p>
-                    <p><span>{t.payer}</span>à payé<span>{t.amount}€</span>
-                        pour<span>{t.payee}</span>pour le motif<span>{t.name}</span>
+                    <p><span>{t.payer}</span> à payé <span>{t.amount}€ </span>
+                        pour <span>{t.payee}</span> pour le motif <span>{t.name}</span>
                     </p>
                     <p onClick={() => cta(t.id as number)}>X</p>
                 </div>

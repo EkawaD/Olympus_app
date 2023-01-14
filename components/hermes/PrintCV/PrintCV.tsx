@@ -9,8 +9,6 @@ import ReactToPrint from "react-to-print";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 
-
-
 // import ClassicCV from '../components/pages/profil/CV/ClassicCV';
 
 export default function PrintCV({ profil }: { profil: Profil }) {
